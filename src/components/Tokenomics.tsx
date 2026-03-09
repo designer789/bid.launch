@@ -25,20 +25,13 @@ export default function Tokenomics() {
 
     return () => observer.disconnect();
   }, []);
+
   const utilities = [
     'Participate in all auctions',
     'Gain AI tool access', 
     'Governance voting',
     'Staking for yield and fee sharing',
     'Discounted participation fees'
-  ];
-
-  const allocations = [
-    { category: 'Fair Launch', percentage: 60, color: 'from-[#005EFF] to-[#303eb2]' },
-    { category: 'Liquidity & Auction Reserve', percentage: 20, color: 'from-[#303eb2] to-[#4c63d4]' },
-    { category: 'Ecosystem & Rewards', percentage: 10, color: 'from-[#4c63d4] to-[#6b83e6]' },
-    { category: 'Contributors & Team', percentage: 5, color: 'from-[#6b83e6] to-[#8aa3f8]' },
-    { category: 'Marketing & Partnerships', percentage: 5, color: 'from-[#8aa3f8] to-[#a9c3ff]' }
   ];
 
   return (
@@ -57,13 +50,17 @@ export default function Tokenomics() {
           </h2>
         </div>
 
-        <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 transition-all duration-1000 ease-out ${
+        {/* 关键修改处：
+            1. 移除了 lg:grid-cols-2
+            2. 添加了 max-w-2xl mx-auto 确保内容在中间且不会拉得太宽
+        */}
+        <div className={`max-w-2xl mx-auto transition-all duration-1000 ease-out ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}
         style={{
           transitionDelay: '200ms'
         }}>
-          {/* Left Column - Token Info & Utility */}
+          {/* Token Info & Utility Column */}
           <div className="space-y-12">
             {/* Token Basic Info */}
             <div className={`p-8 rounded-2xl border border-gray-600/30 transition-all duration-1000 ease-out ${
@@ -95,7 +92,8 @@ export default function Tokenomics() {
               transitionDelay: '400ms'
             }}>
               <h3 className="font-titillium text-2xl font-semibold text-white mb-6">Utility</h3>
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4"> 
+                {/* 提示：这里我加了一个 md:grid-cols-2 让 Utility 在宽屏时可以并排显示，如果不喜欢可以改回 space-y-4 */}
                 {utilities.map((utility, index) => (
                   <div key={index} className="flex items-center space-x-3">
                     <div className="w-2 h-2 bg-gradient-to-br from-[#005EFF] to-[#303eb2] rounded-full flex-shrink-0"></div>
@@ -105,53 +103,8 @@ export default function Tokenomics() {
               </div>
             </div>
           </div>
-
-          {/* Right Column - Allocation */}
-          <div className={`p-8 rounded-2xl border border-gray-600/30 transition-all duration-1000 ease-out ${
-            isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
-          }`} 
-          style={{
-            background: 'radial-gradient(306.043% 100% at 50% -1.2598e-06%, rgb(13, 15, 36) 45.3484%, rgb(10, 18, 86) 100%)',
-            transitionDelay: '500ms'
-          }}>
-            <h3 className="font-titillium text-2xl font-semibold text-white mb-8">Allocation</h3>
-            <div className="space-y-6">
-              {allocations.map((allocation, index) => (
-                <div key={index} className={`space-y-2 transition-all duration-1000 ease-out ${
-                  isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-                }`}
-                style={{
-                  transitionDelay: `${600 + index * 100}ms`
-                }}>
-                  <div className="flex justify-between items-center">
-                    <span className="font-lato text-lg text-white/80">{allocation.category}</span>
-                    <span className="font-titillium text-xl font-semibold text-white">{allocation.percentage}%</span>
-                  </div>
-                  <div className="w-full bg-gray-700/50 rounded-full h-3">
-                    <div 
-                      className={`h-3 rounded-full bg-gradient-to-r ${allocation.color} transition-all duration-1000 ease-out`}
-                      style={{ width: `${allocation.percentage}%` }}
-                    ></div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Total Verification */}
-            <div className={`mt-8 pt-6 border-t border-gray-600/30 transition-all duration-1000 ease-out ${
-              isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-            }`}
-            style={{
-              transitionDelay: '1100ms'
-            }}>
-              <div className="flex justify-between items-center">
-                <span className="font-titillium text-lg font-semibold text-white">Total:</span>
-                <span className="font-titillium text-xl font-bold text-white">100%</span>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
   );
-} 
+}
